@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "Nivora E-commerce API",
+    "description": "REST API collection for the Nivora full-stack e-commerce application.\n\nBefore use, set the collection variables:\n- baseUrl: the Laravel API base URL (default http://localhost:8000/api)\n- token: a Sanctum bearer token obtained from the Login request\n\nRequests are added to this collection as each endpoint group is implemented.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8000/api" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

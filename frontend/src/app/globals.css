@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Nivora design tokens
+   Light, clean, trustworthy. Single accent blue.
+   Exposed to Tailwind v4 as color/font utilities via @theme.
+   ============================================================ */
+@theme {
+  /* Surfaces */
+  --color-canvas: #f7f8fa; /* page background */
+  --color-surface: #ffffff; /* cards & surfaces */
+  --color-line: #e5e7eb; /* borders / dividers */
+
+  /* Text */
+  --color-ink: #111827; /* primary text */
+  --color-muted: #64748b; /* secondary text */
+
+  /* Brand */
+  --color-primary: #2563eb; /* primary blue */
+  --color-primary-hover: #1d4ed8; /* primary blue, hover */
+  --color-primary-dark: #1e3a5f; /* dark blue accent */
+
+  /* Status */
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-error: #b91c1c;
+
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ============================================================
+   Base styles
+   ============================================================ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px; /* readable base on mobile */
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Consistent, visible keyboard focus across the app */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Images should never force horizontal overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

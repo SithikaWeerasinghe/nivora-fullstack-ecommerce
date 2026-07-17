@@ -1,18 +1,54 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# ============================================================
+#  Nivora — root .gitignore
+#  Covers the Next.js frontend and the Laravel backend.
+# ============================================================
 
-# Other files and folders
-.settings/
+# ----- Operating system -----
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# ----- Editors / IDEs -----
+.idea/
+.fleet/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# ----- Environment files (NEVER commit real secrets) -----
+.env
+.env.*
+!.env.example
+
+# ----- Node / Next.js (frontend/) -----
+node_modules/
+.next/
+out/
+build/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.vercel
+
+# ----- PHP / Laravel (backend/) -----
+/backend/vendor/
+/backend/node_modules/
+/backend/public/build/
+/backend/public/hot
+/backend/public/storage
+/backend/storage/*.key
+/backend/.phpunit.result.cache
+/backend/.phpunit.cache/
+/backend/composer.phar
+/backend/auth.json
+/backend/.php-cs-fixer.cache
+
+# ----- Documentation artifacts -----
+/docs/screenshots/*.tmp
