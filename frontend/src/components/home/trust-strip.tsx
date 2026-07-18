@@ -24,7 +24,13 @@ const trustPoints = [
 
 export function TrustStrip() {
   return (
-    <section aria-label="Why shop with Nivora" className="mx-auto max-w-6xl px-4 pb-16 pt-6 sm:px-6">
+    <section
+      aria-labelledby="trust-heading"
+      className="mx-auto max-w-6xl px-4 pb-16 pt-6 sm:px-6"
+    >
+      <h2 id="trust-heading" className="sr-only">
+        Why shop with Nivora
+      </h2>
       <ul className="grid gap-4 sm:grid-cols-3">
         {trustPoints.map((point) => (
           <li

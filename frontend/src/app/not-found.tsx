@@ -11,11 +11,14 @@ export default function NotFound() {
       <p className="mt-3 text-muted">
         The page you are looking for does not exist or may have moved.
       </p>
-      <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <Link href="/" className={buttonClasses("outline")}>
+      <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:justify-center">
+        <Link href="/" className={buttonClasses("outline", "md", "w-full sm:w-auto")}>
           Return Home
         </Link>
-        <Link href="/products" className={buttonClasses("primary")}>
+        <Link
+          href="/products"
+          className={buttonClasses("primary", "md", "w-full sm:w-auto")}
+        >
           Browse Products
         </Link>
       </div>

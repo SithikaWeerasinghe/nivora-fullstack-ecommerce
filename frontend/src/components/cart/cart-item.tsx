@@ -55,61 +55,72 @@ export function CartItemRow({ item }: { item: CartItem }) {
     }
   }
 
+  const controls = (
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <QuantitySelector
+        value={item.quantity}
+        max={item.product.stock}
+        onChange={handleQuantityChange}
+        disabled={pending}
+        label={`Quantity for ${item.product.name}`}
+      />
+      <button
+        type="button"
+        onClick={handleRemove}
+        disabled={pending}
+        aria-label={`Remove ${item.product.name} from cart`}
+        className="inline-flex h-11 cursor-pointer items-center gap-1.5 rounded-lg px-3 text-sm font-medium text-muted transition-colors hover:bg-error/5 hover:text-error disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <TrashIcon className="h-4 w-4" />
+        <span className="hidden sm:inline">Remove</span>
+      </button>
+    </div>
+  );
+
   return (
-    <li className="flex gap-4 py-5">
-      <Link href={detailsHref} className="shrink-0" tabIndex={-1} aria-hidden="true">
-        <ProductImage
-          product={item.product}
-          sizes="112px"
-          className="w-24 rounded-lg border border-line sm:w-28"
-        />
-      </Link>
-
-      <div className="flex min-w-0 flex-1 flex-col gap-3">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <p className="font-medium leading-snug text-ink">
-              <Link
-                href={detailsHref}
-                className="rounded transition-colors hover:text-primary"
-              >
-                {item.product.name}
-              </Link>
-            </p>
-            <p className="mt-0.5 text-sm text-muted">
-              {formatPrice(item.product.price)} each
-            </p>
-            {showStockNote ? (
-              <div className="mt-1.5">
-                <StockBadge stock={item.product.stock} />
-              </div>
-            ) : null}
-          </div>
-          <p className="whitespace-nowrap font-semibold text-ink">
-            {formatCents(lineTotalCents(item))}
-          </p>
-        </div>
-
-        <div className="mt-auto flex flex-wrap items-center justify-between gap-3">
-          <QuantitySelector
-            value={item.quantity}
-            max={item.product.stock}
-            onChange={handleQuantityChange}
-            disabled={pending}
-            label={`Quantity for ${item.product.name}`}
+    <li className="py-5">
+      <div className="flex gap-4">
+        <Link href={detailsHref} className="shrink-0" tabIndex={-1} aria-hidden="true">
+          <ProductImage
+            product={item.product}
+            sizes="112px"
+            className="w-24 rounded-lg border border-line sm:w-28"
           />
-          <button
-            type="button"
-            onClick={handleRemove}
-            disabled={pending}
-            aria-label={`Remove ${item.product.name} from cart`}
-            className="inline-flex h-11 cursor-pointer items-center gap-1.5 rounded-lg px-3 text-sm font-medium text-muted transition-colors hover:bg-error/5 hover:text-error disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <TrashIcon className="h-4 w-4" />
-            Remove
-          </button>
+        </Link>
+
+        <div className="flex min-w-0 flex-1 flex-col gap-3">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="font-medium leading-snug text-ink">
+                <Link
+                  href={detailsHref}
+                  className="rounded transition-colors hover:text-primary"
+                >
+                  {item.product.name}
+                </Link>
+              </p>
+              <p className="mt-0.5 text-sm text-muted">
+                {formatPrice(item.product.price)} each
+              </p>
+              {showStockNote ? (
+                <div className="mt-1.5">
+                  <StockBadge stock={item.product.stock} />
+                </div>
+              ) : null}
+            </div>
+            <p className="whitespace-nowrap font-semibold text-ink">
+              {formatCents(lineTotalCents(item))}
+            </p>
+          </div>
+
+          {/* On wider rows the content column has room for the controls too. */}
+          <div className="mt-auto hidden sm:block">{controls}</div>
         </div>
       </div>
+
+      {/* On narrow rows the content column is too tight for the image plus
+          both controls, so the controls get the full row width instead. */}
+      <div className="mt-3 sm:hidden">{controls}</div>
     </li>
   );
 }

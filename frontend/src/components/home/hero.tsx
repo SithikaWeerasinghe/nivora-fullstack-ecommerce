@@ -3,10 +3,10 @@ import Link from "next/link";
 import { buttonClasses } from "@/components/ui/button";
 
 const heroImages = [
-  { src: "/images/products/aurora-wireless-headphones.svg", alt: "Aurora Wireless Headphones" },
-  { src: "/images/products/keystone-mechanical-keyboard.svg", alt: "Keystone Mechanical Keyboard" },
-  { src: "/images/products/sentinel-indoor-camera.svg", alt: "Sentinel Indoor Camera" },
-  { src: "/images/products/portal-usb-c-hub.svg", alt: "Portal USB-C Hub" },
+  { src: "/images/products/wireless-headphones.png", alt: "Aurora Wireless Headphones" },
+  { src: "/images/products/mechanical-keyboard.png", alt: "Keystone Mechanical Keyboard" },
+  { src: "/images/products/indoor-security-camera.png", alt: "Sentinel Indoor Camera" },
+  { src: "/images/products/universal-travel-adapter.png", alt: "Portal USB-C Hub" },
 ];
 
 export function Hero() {

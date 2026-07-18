@@ -43,14 +43,14 @@ export function ProductCard({ product }: { product: Product }) {
           </span>
           <StockBadge stock={product.stock} />
         </div>
-        <div className="flex gap-2 pt-1.5">
+        <div className="grid grid-cols-1 gap-2 pt-1.5">
           <Link
             href={detailsHref}
-            className={buttonClasses("outline", "md", "flex-1")}
+            className={buttonClasses("outline", "md", "w-full")}
           >
             Details
           </Link>
-          <AddToCartButton product={product} className="flex-1" />
+          <AddToCartButton product={product} className="w-full" />
         </div>
       </div>
     </article>

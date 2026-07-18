@@ -54,7 +54,7 @@ export function FeaturedProducts() {
         </h2>
         <Link
           href="/products"
-          className="inline-flex h-10 items-center gap-1.5 rounded text-sm font-medium text-primary transition-colors hover:text-primary-hover"
+          className="inline-flex h-11 items-center gap-1.5 rounded text-sm font-medium text-primary transition-colors hover:text-primary-hover"
         >
           View all products
           <ArrowRightIcon className="h-4 w-4" />

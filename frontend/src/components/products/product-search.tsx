@@ -77,7 +77,7 @@ export function ProductSearch({ initialValue, onSearchChange }: ProductSearchPro
         type="search"
         placeholder="Search products…"
         autoComplete="off"
-        className="peer pl-11 pr-11"
+        className="peer pl-11 pr-12"
         defaultValue={initialValue}
         onChange={(event) => scheduleSearch(event.target.value)}
         onKeyDown={(event) => {
@@ -91,7 +91,7 @@ export function ProductSearch({ initialValue, onSearchChange }: ProductSearchPro
         type="button"
         aria-label="Clear search"
         onClick={clearSearch}
-        className="absolute right-1.5 top-1/2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-md text-muted transition-colors hover:text-ink peer-placeholder-shown:hidden"
+        className="absolute right-0.5 top-1/2 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-md text-muted transition-colors hover:text-ink peer-placeholder-shown:hidden"
       >
         <CloseIcon className="h-4 w-4" />
       </button>

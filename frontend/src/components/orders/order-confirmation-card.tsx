@@ -19,9 +19,9 @@ export function OrderConfirmationCard({ order }: { order: Order }) {
             Placed on {formatDate(order.created_at)}
           </p>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm">
-            <p>
+            <p className="max-w-full">
               <span className="text-muted">Order number: </span>
-              <span className="font-semibold text-ink">
+              <span className="break-all font-semibold text-ink">
                 {order.order_number}
               </span>
             </p>

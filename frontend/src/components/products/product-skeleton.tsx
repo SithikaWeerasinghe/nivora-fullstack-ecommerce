@@ -16,7 +16,10 @@ export function ProductCardSkeleton() {
           <SkeletonBlock className="h-5 w-16" />
           <SkeletonBlock className="h-5 w-20 rounded-full" />
         </div>
-        <SkeletonBlock className="h-11 w-full rounded-lg" />
+        <div className="grid grid-cols-1 gap-2 pt-1.5">
+          <SkeletonBlock className="h-11 w-full rounded-lg" />
+          <SkeletonBlock className="h-11 w-full rounded-lg" />
+        </div>
       </div>
     </div>
   );

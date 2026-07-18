@@ -5,7 +5,7 @@ export function Wordmark() {
     <Link
       href="/"
       aria-label="Nivora — home"
-      className="inline-flex items-center gap-2.5 rounded-lg"
+      className="inline-flex items-center gap-2.5 rounded-lg py-2"
     >
       <span
         aria-hidden="true"
