@@ -36,6 +36,19 @@ backed by **PostgreSQL** hosted on **Supabase**.
 
 ---
 
+## Project status
+
+The complete customer-facing frontend is implemented: home, product listing
+with search/filter/pagination, product details, register/login, cart, protected
+checkout, order confirmation, and a custom 404 page.
+
+During the current phase the frontend runs against a **structured, typed mock
+service layer** (`frontend/src/services/`) whose response shapes match the
+planned Laravel API exactly (snake_case fields, string decimal prices,
+Laravel-style pagination). In the next phase these mock services are replaced
+by real HTTP calls to the Laravel 13 REST API — no component or page changes
+required.
+
 ## Overview
 
 Nivora lets a shopper browse a small, curated catalogue of technology and

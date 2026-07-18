@@ -8,6 +8,17 @@ This package is one half of the Nivora monorepo. See the
 [root README](../README.md) for the full project overview, architecture, and
 setup instructions.
 
+## Current phase: mock services
+
+All pages and flows (browse, search, filter, paginate, product details, auth,
+cart, checkout, order confirmation) are fully implemented against a typed mock
+service layer in `src/services/`. Mock responses match the future Laravel API
+contracts — snake_case fields, string decimal prices, and Laravel-style
+pagination metadata — so swapping in the real REST API only replaces the
+service implementations behind `src/services/index.ts`. Temporary auth and
+cart state persist to localStorage purely for demonstration and are isolated
+inside the service layer and providers.
+
 ## Stack
 
 - Next.js (App Router) + TypeScript

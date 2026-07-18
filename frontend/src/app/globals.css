@@ -61,6 +61,13 @@
     max-width: 100%;
     height: auto;
   }
+
+  /* The app renders its own clear button for search inputs */
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
 }
 
 /* Respect users who prefer reduced motion */
