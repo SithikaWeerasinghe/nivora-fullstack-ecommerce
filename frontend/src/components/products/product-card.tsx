@@ -17,20 +17,20 @@ export function ProductCard({ product }: { product: Product }) {
   const outOfStock = product.stock <= 0;
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-[border-color,box-shadow,translate] duration-200 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg focus-within:-translate-y-1 focus-within:border-primary/50 focus-within:shadow-lg motion-reduce:translate-none">
+    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-[border-color,box-shadow,translate] duration-500 ease-out hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg focus-within:-translate-y-1 focus-within:border-primary/50 focus-within:shadow-lg motion-reduce:translate-none">
       <Link href={detailsHref} tabIndex={-1} aria-hidden="true">
         <ProductImage
           product={product}
           sizes={cardImageSizes}
           className={cn(outOfStock && "opacity-60")}
-          imageClassName="transition-transform duration-300 ease-out group-hover:scale-[1.03] group-focus-within:scale-[1.03] motion-reduce:scale-none"
+          imageClassName="transition-transform duration-500 ease-out group-hover:scale-[1.03] group-focus-within:scale-[1.03] motion-reduce:scale-none"
         />
       </Link>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <h3 className="font-semibold leading-snug text-ink">
           <Link
             href={detailsHref}
-            className="rounded transition-colors duration-200 group-hover:text-primary"
+            className="rounded transition-colors duration-500 ease-out group-hover:text-primary"
           >
             {product.name}
           </Link>

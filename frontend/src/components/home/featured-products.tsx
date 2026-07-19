@@ -46,7 +46,7 @@ export function FeaturedProducts() {
   return (
     <section
       aria-labelledby="featured-heading"
-      className="mx-auto max-w-6xl px-4 py-6 sm:px-6"
+      className="mx-auto max-w-7xl px-4 py-6 sm:px-6"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 id="featured-heading" className="text-2xl font-bold tracking-tight text-ink">

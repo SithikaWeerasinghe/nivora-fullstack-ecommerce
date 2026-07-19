@@ -29,6 +29,36 @@ function useScrolled(): boolean {
   );
 }
 
+/** Minimal active/hover indicator: a growing underline instead of a filled block. */
+function NavLink({
+  href,
+  active,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "group relative flex h-11 items-center px-1 text-sm font-medium transition-colors duration-300 ease-out",
+        active ? "text-primary" : "text-ink hover:text-primary",
+      )}
+    >
+      {children}
+      <span
+        aria-hidden="true"
+        className={cn(
+          "absolute inset-x-0 -bottom-0.5 h-0.5 origin-left rounded-full bg-primary transition-transform duration-300 ease-out motion-reduce:transition-none",
+          active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
+        )}
+      />
+    </Link>
+  );
+}
+
 function CartLink({ onNavigate }: { onNavigate?: () => void }) {
   const { totals, hydrated } = useCart();
   const count = totals.itemCount;
@@ -88,35 +118,33 @@ export function Navbar({ categories }: { categories: Category[] }) {
 
   const homeActive = pathname === "/";
   const shopActive = pathname.startsWith("/products");
-
-  const navLinkClasses = (active: boolean) =>
-    cn(
-      "flex h-11 items-center rounded-lg px-4 text-sm font-medium transition-colors duration-200",
-      active ? "bg-primary/10 text-primary" : "text-ink hover:bg-canvas",
-    );
+  // Transparent glass only makes sense while the homepage hero is showing
+  // behind it; every other route (and the homepage once scrolled) gets the
+  // solid surface so text always has a guaranteed-light background.
+  const overHero = homeActive && !scrolled;
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 border-b backdrop-blur-md transition-[background-color,border-color,box-shadow] duration-200",
-        scrolled
-          ? "border-line bg-surface/95 shadow-sm"
-          : "border-line/70 bg-surface/80",
+        "fixed inset-x-0 top-0 z-40 border-b backdrop-blur-md transition-[background-color,border-color,box-shadow] duration-300",
+        overHero
+          ? "border-white/25 bg-white/15 shadow-none"
+          : "border-line bg-surface/95 shadow-sm",
       )}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6">
         <Wordmark />
 
         <nav
           aria-label="Main navigation"
-          className="mx-auto hidden items-center gap-1 md:flex"
+          className="mx-auto hidden items-center gap-6 md:flex"
         >
-          <Link href="/" className={navLinkClasses(homeActive)}>
+          <NavLink href="/" active={homeActive}>
             Home
-          </Link>
-          <Link href="/products" className={navLinkClasses(shopActive)}>
+          </NavLink>
+          <NavLink href="/products" active={shopActive}>
             Shop All
-          </Link>
+          </NavLink>
           <CategoriesDropdown categories={categories} />
         </nav>
 

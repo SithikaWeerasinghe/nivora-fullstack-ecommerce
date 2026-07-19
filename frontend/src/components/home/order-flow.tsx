@@ -40,7 +40,7 @@ export function OrderFlow() {
   return (
     <section
       aria-labelledby="order-flow-heading"
-      className="mx-auto max-w-6xl px-4 pb-20 pt-6 sm:px-6"
+      className="mx-auto max-w-7xl px-4 pb-20 pt-6 sm:px-6"
     >
       <div className="max-w-2xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary sm:text-sm">
@@ -66,9 +66,9 @@ export function OrderFlow() {
         <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step) => (
             <li key={step.number} className="h-full">
-              <div className="group relative flex h-full flex-col rounded-xl border border-line bg-surface p-6 transition-[border-color,box-shadow,translate] duration-200 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md motion-reduce:translate-none">
+              <div className="group relative flex h-full flex-col rounded-xl border border-line bg-surface p-6 transition-[border-color,box-shadow,translate] duration-500 ease-out hover:-translate-y-1 hover:border-primary/50 hover:shadow-md motion-reduce:translate-none">
                 <div className="flex items-center justify-between">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors duration-200 group-hover:bg-primary group-hover:text-white">
+                  <span className="flex h-12 w-12 scale-100 items-center justify-center rounded-full bg-primary/10 text-primary transition-[background-color,color,scale] duration-500 ease-out group-hover:scale-[1.03] group-hover:bg-primary group-hover:text-white motion-reduce:scale-100">
                     <step.icon className="h-5 w-5" />
                   </span>
                   <span className="text-sm font-semibold tracking-widest text-primary">

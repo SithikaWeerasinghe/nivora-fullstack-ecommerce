@@ -5,7 +5,7 @@ import { Wordmark } from "./wordmark";
 import type { Category } from "@/types";
 
 const footerLinkClasses =
-  "inline-flex min-h-11 items-center rounded text-sm text-white/70 transition-colors duration-200 hover:text-blue-300 focus-visible:text-blue-300";
+  "inline-flex min-h-11 items-center rounded text-sm text-white/70 transition-colors duration-300 ease-out hover:text-blue-300 focus-visible:text-blue-300";
 
 const quickLinks = [
   { href: "/", label: "Home" },
@@ -27,7 +27,7 @@ const columnHeadingClasses =
 export function Footer({ categories }: { categories: Category[] }) {
   return (
     <footer className="border-t border-primary/40 bg-[#0F1E33] text-white">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:gap-8 lg:py-14">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:gap-8 lg:py-14">
         <div>
           <Wordmark tone="light" />
           <p className="mt-3 text-sm font-medium text-white/90">
@@ -86,7 +86,7 @@ export function Footer({ categories }: { categories: Category[] }) {
       </div>
 
       <div className="border-t border-white/10 px-4 py-5 sm:px-6">
-        <div className="mx-auto flex max-w-6xl flex-col gap-1.5 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+        <div className="mx-auto flex max-w-7xl flex-col gap-1.5 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <p className="text-xs text-white/60 sm:text-sm">
             © 2026 Nivora. All rights reserved.
           </p>

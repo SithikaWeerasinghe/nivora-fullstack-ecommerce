@@ -58,7 +58,7 @@ export function Hero() {
     <section
       aria-roledescription="carousel"
       aria-label="Nivora collections"
-      className="border-b border-line bg-surface"
+      className="relative -mt-16 border-b border-line bg-surface"
       onPointerEnter={(event) => {
         // Filter to real mice: iOS/Android dispatch a synthetic pointer
         // event on tap, and without this check a tap would "stick" the
@@ -77,7 +77,7 @@ export function Hero() {
     >
       <h1 className="sr-only">Nivora — thoughtful tech for everyday life</h1>
       <div
-        className="relative mx-auto h-[500px] max-w-[1800px] overflow-hidden sm:h-[540px] lg:h-[600px]"
+        className="relative mx-auto h-[600px] max-w-[1800px] overflow-hidden sm:h-[640px] lg:h-[680px]"
         onTouchStart={(event) => {
           const touch = event.touches[0];
           touchStart.current = { x: touch.clientX, y: touch.clientY };
@@ -129,32 +129,51 @@ export function Hero() {
                   aria-hidden="true"
                   className="absolute inset-0 bg-gradient-to-t from-white/92 via-white/55 to-white/15"
                 />
-                <div className="absolute inset-x-0 bottom-0 flex justify-center px-4 pb-24 sm:px-6">
-                  <div className="w-full max-w-2xl text-center">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary sm:text-sm">
-                      {slide.eyebrow}
-                    </p>
-                    <h2 className="mt-3 text-balance text-3xl font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl">
-                      {slide.headline}
-                    </h2>
-                    <p className="mx-auto mt-3 max-w-xl text-pretty text-base leading-7 text-ink/80 sm:text-lg sm:leading-8">
-                      {slide.description}
-                    </p>
-                    <div className="mt-6 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-                      <Link
-                        href={slide.ctaHref}
-                        className={buttonClasses("primary", "lg", "w-full sm:w-auto")}
+                <div className="absolute inset-x-0 bottom-0 pb-24 sm:pb-20">
+                  <div className="mx-auto max-w-7xl px-4 sm:px-6">
+                    <div
+                      className={cn(
+                        "max-w-2xl",
+                        slide.align === "left" ? "text-left" : "mx-auto text-center",
+                      )}
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary sm:text-sm">
+                        {slide.eyebrow}
+                      </p>
+                      <h2 className="mt-3 text-balance text-[clamp(2rem,1.3rem+3vw,3.75rem)] font-bold leading-[1.1] tracking-tight text-ink">
+                        {slide.headline}
+                      </h2>
+                      <p
+                        className={cn(
+                          "mt-4 max-w-xl text-pretty text-base leading-7 text-ink/80 sm:text-lg sm:leading-8",
+                          slide.align === "center" && "mx-auto",
+                        )}
                       >
-                        {slide.ctaLabel}
-                      </Link>
-                      {slide.secondaryCtaLabel && slide.secondaryCtaHref ? (
+                        {slide.description}
+                      </p>
+                      <div
+                        className={cn(
+                          "mt-7 flex flex-col items-stretch gap-3 sm:flex-row",
+                          slide.align === "left"
+                            ? "sm:items-center"
+                            : "justify-center sm:items-center",
+                        )}
+                      >
                         <Link
-                          href={slide.secondaryCtaHref}
-                          className={buttonClasses("outline", "lg", "w-full sm:w-auto")}
+                          href={slide.ctaHref}
+                          className={buttonClasses("primary", "lg", "w-full sm:w-auto")}
                         >
-                          {slide.secondaryCtaLabel}
+                          {slide.ctaLabel}
                         </Link>
-                      ) : null}
+                        {slide.secondaryCtaLabel && slide.secondaryCtaHref ? (
+                          <Link
+                            href={slide.secondaryCtaHref}
+                            className={buttonClasses("outline", "lg", "w-full sm:w-auto")}
+                          >
+                            {slide.secondaryCtaLabel}
+                          </Link>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                 </div>

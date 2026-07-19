@@ -46,7 +46,10 @@ export default async function RootLayout({
         </a>
         <Providers>
           <Navbar categories={categories} />
-          <main id="main-content" className="flex flex-1 flex-col">
+          {/* The navbar is fixed (so it can sit transparently over the
+              homepage hero) and no longer reserves flow space; compensate
+              here. The hero cancels this out for itself with -mt-16. */}
+          <main id="main-content" className="flex flex-1 flex-col pt-16">
             {children}
           </main>
           <Footer categories={categories} />
