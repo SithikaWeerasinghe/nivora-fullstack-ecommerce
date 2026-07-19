@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { cn } from "@/lib/cn";
 
-export function Wordmark() {
+export function Wordmark({ tone = "dark" }: { tone?: "dark" | "light" }) {
   return (
     <Link
       href="/"
@@ -13,7 +14,12 @@ export function Wordmark() {
       >
         N
       </span>
-      <span className="text-xl font-semibold tracking-tight text-primary-dark">
+      <span
+        className={cn(
+          "text-xl font-semibold tracking-tight",
+          tone === "light" ? "text-white" : "text-primary-dark",
+        )}
+      >
         Nivora
       </span>
     </Link>

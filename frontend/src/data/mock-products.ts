@@ -7,6 +7,10 @@ type RawProduct = Omit<Product, "category">;
  * Catalogue seed data. Prices are decimal strings and stock values are
  * deliberate: several low-stock items and one out-of-stock item exist so
  * stock messaging and disabled states can be demonstrated honestly.
+ *
+ * Every image_url points at a real photo in public/images/products/ whose
+ * filename matches its visual content — there is no filename/content
+ * override in effect here.
  */
 const rawProducts: RawProduct[] = [
   // ---- Audio ----
@@ -55,23 +59,6 @@ const rawProducts: RawProduct[] = [
     created_at: "2026-06-03T09:00:00Z",
     updated_at: "2026-07-02T09:00:00Z",
   },
-  {
-    id: 4,
-    category_id: 1,
-    name: "Drift Wired Earphones",
-    slug: "drift-wired-earphones",
-    short_description: "Noise-isolating wired earphones with an in-line mic.",
-    description:
-      "Drift keeps things simple: a tangle-resistant cable, angled noise-isolating tips, and an in-line microphone with a single control button. No batteries, no pairing — just plug into any USB-C device and listen.",
-    price: "34.99",
-    stock: 30,
-    // No matching photo was provided for a wired (non-case) earphone
-    // product; falls back to the graceful "no image" state.
-    image_url: null,
-    is_featured: false,
-    created_at: "2026-06-04T09:00:00Z",
-    updated_at: "2026-07-02T09:00:00Z",
-  },
 
   // ---- Workspace ----
   {
@@ -114,10 +101,7 @@ const rawProducts: RawProduct[] = [
       "Lumen throws an even, flicker-free light across your desk without hot spots or glare. Five colour temperatures and stepless dimming adapt it from bright task lighting to a warm evening glow, and the folding arm tucks flat when not in use. A USB-A port in the base charges your phone while you work.",
     price: "49.99",
     stock: 3,
-    // The file named "smart-light-bulb.png" actually depicts a desk
-    // lamp (the two supplied files were mislabeled/swapped) — mapped
-    // here by visual content, not filename.
-    image_url: "/images/products/smart-light-bulb.png",
+    image_url: "/images/products/led-desk-lamp.png",
     is_featured: true,
     created_at: "2026-06-07T09:00:00Z",
     updated_at: "2026-07-04T09:00:00Z",
@@ -179,10 +163,7 @@ const rawProducts: RawProduct[] = [
       "Glow replaces a standard E27 bulb and adds full colour, tunable whites, and smooth dimming, all controllable from the companion app or your voice assistant. Gentle wake-up and wind-down routines make mornings and evenings easier. Rated for 25,000 hours of use.",
     price: "21.99",
     stock: 0,
-    // The file named "led-desk-lamp.png" actually depicts a smart bulb
-    // (the two supplied files were mislabeled/swapped) — mapped here by
-    // visual content, not filename.
-    image_url: "/images/products/led-desk-lamp.png",
+    image_url: "/images/products/smart-light-bulb.png",
     is_featured: false,
     created_at: "2026-06-11T09:00:00Z",
     updated_at: "2026-07-06T09:00:00Z",
@@ -202,21 +183,6 @@ const rawProducts: RawProduct[] = [
     created_at: "2026-06-12T09:00:00Z",
     updated_at: "2026-07-06T09:00:00Z",
   },
-  {
-    id: 13,
-    category_id: 3,
-    name: "Pulse Motion Sensor",
-    slug: "pulse-motion-sensor",
-    short_description: "Battery-powered motion sensor for lights and routines.",
-    description:
-      "Pulse detects movement up to seven metres away and triggers your connected lights or routines in under a second. Mount it with the included adhesive plate or let the magnetic base swivel it toward a doorway. A single coin cell keeps it running for around two years.",
-    price: "29.99",
-    stock: 22,
-    image_url: null,
-    is_featured: false,
-    created_at: "2026-06-13T09:00:00Z",
-    updated_at: "2026-07-07T09:00:00Z",
-  },
 
   // ---- Mobile Accessories ----
   {
@@ -229,9 +195,6 @@ const rawProducts: RawProduct[] = [
       "Perch holds your phone at exactly the angle you want — for video calls, recipes, or a second screen beside your laptop. The hinge adjusts smoothly through 270 degrees and folds flat to slip into a pocket. Rubber pads keep both the phone and your desk scratch-free.",
     price: "18.99",
     stock: 28,
-    // "foldable-phone-stand.png" matches this product's hinged,
-    // fold-flat design; "magnetic-phone-stand.png" is a fixed magnetic
-    // mount and does not match the description.
     image_url: "/images/products/foldable-phone-stand.png",
     is_featured: false,
     created_at: "2026-06-14T09:00:00Z",
@@ -240,11 +203,11 @@ const rawProducts: RawProduct[] = [
   {
     id: 15,
     category_id: 4,
-    name: "Loop Wireless Charger",
-    slug: "loop-wireless-charger",
-    short_description: "15 W fast wireless charging stand with case-friendly coils.",
+    name: "Loop Wireless Charging Pad",
+    slug: "loop-wireless-charging-pad",
+    short_description: "A slim wireless charging pad for simple everyday desk and bedside charging.",
     description:
-      "Loop charges your phone upright, so notifications stay visible while it powers up at 15 W. Dual coils support both portrait and landscape, and it charges through most cases up to 5 mm thick. A soft LED shows charging status and dims automatically at night.",
+      "A compact low-profile wireless charging pad with a clean surface and non-slip base, designed for convenient cable-free charging at home or work.",
     price: "42.99",
     stock: 16,
     image_url: "/images/products/wireless-charging-pad.png",
@@ -282,6 +245,21 @@ const rawProducts: RawProduct[] = [
     created_at: "2026-06-17T09:00:00Z",
     updated_at: "2026-07-09T09:00:00Z",
   },
+  {
+    id: 4,
+    category_id: 4,
+    name: "Orbit Magnetic Phone Stand",
+    slug: "orbit-magnetic-phone-stand",
+    short_description: "A compact magnetic stand that keeps your phone visible and comfortably positioned.",
+    description:
+      "A stable aluminium phone stand with a magnetic mounting surface and an adjustable viewing angle, designed for desks, bedside tables, and everyday hands-free use.",
+    price: "24.99",
+    stock: 22,
+    image_url: "/images/products/magnetic-phone-stand.png",
+    is_featured: false,
+    created_at: "2026-06-04T09:00:00Z",
+    updated_at: "2026-07-02T09:00:00Z",
+  },
 
   // ---- Travel Tech ----
   {
@@ -294,10 +272,7 @@ const rawProducts: RawProduct[] = [
       "Portal expands a single USB-C port into HDMI 4K output, two USB-A ports, USB-C data, SD and microSD card readers, and 100 W pass-through charging. The aluminium shell stays cool under load and matches most laptops. A built-in cable tucks away for travel.",
     price: "64.99",
     stock: 14,
-    // The file named "universal-travel-adapter.png" actually depicts a
-    // USB-C hub (the two supplied travel-tech files were mislabeled/
-    // swapped) — mapped here by visual content, not filename.
-    image_url: "/images/products/universal-travel-adapter.png",
+    image_url: "/images/products/usb-c-travel-hub.png",
     is_featured: true,
     created_at: "2026-06-18T09:00:00Z",
     updated_at: "2026-07-09T09:00:00Z",
@@ -312,10 +287,7 @@ const rawProducts: RawProduct[] = [
       "Roam combines UK, EU, US, and AU plugs into one compact unit that covers more than 150 countries. Two USB-C and two USB-A ports charge four devices alongside the mains socket, and a replaceable fuse plus safety shutters protect your gear. It weighs just 140 g.",
     price: "36.99",
     stock: 20,
-    // The file named "usb-c-travel-hub.png" actually depicts a wall
-    // travel adapter (see note on Portal USB-C Hub above) — mapped here
-    // by visual content, not filename.
-    image_url: "/images/products/usb-c-travel-hub.png",
+    image_url: "/images/products/universal-travel-adapter.png",
     is_featured: false,
     created_at: "2026-06-19T09:00:00Z",
     updated_at: "2026-07-10T09:00:00Z",
@@ -334,6 +306,21 @@ const rawProducts: RawProduct[] = [
     is_featured: false,
     created_at: "2026-06-20T09:00:00Z",
     updated_at: "2026-07-10T09:00:00Z",
+  },
+  {
+    id: 13,
+    category_id: 5,
+    name: "Harbor Laptop Sleeve",
+    slug: "harbor-laptop-sleeve",
+    short_description: "A slim padded sleeve that protects a laptop during work, study, and travel.",
+    description:
+      "A lightweight laptop sleeve with a softly padded interior, durable textured fabric, and a clean zip closure for practical everyday protection.",
+    price: "32.99",
+    stock: 17,
+    image_url: "/images/products/laptop-sleeve.png",
+    is_featured: false,
+    created_at: "2026-06-13T09:00:00Z",
+    updated_at: "2026-07-07T09:00:00Z",
   },
 ];
 

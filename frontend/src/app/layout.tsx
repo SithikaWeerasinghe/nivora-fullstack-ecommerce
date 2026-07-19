@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { Providers } from "@/components/providers/providers";
+import { getCategories } from "@/services";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,11 +28,13 @@ export const viewport: Viewport = {
   themeColor: "#2563eb",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const categories = await getCategories();
+
   return (
     <html lang="en" className={`${inter.variable} h-full`}>
       <body className="flex min-h-full flex-col bg-canvas font-sans text-ink antialiased">
@@ -42,11 +45,11 @@ export default function RootLayout({
           Skip to content
         </a>
         <Providers>
-          <Navbar />
+          <Navbar categories={categories} />
           <main id="main-content" className="flex flex-1 flex-col">
             {children}
           </main>
-          <Footer />
+          <Footer categories={categories} />
         </Providers>
       </body>
     </html>

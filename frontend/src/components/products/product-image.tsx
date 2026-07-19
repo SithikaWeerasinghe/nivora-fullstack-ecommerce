@@ -11,6 +11,7 @@ interface ProductImageProps {
   sizes?: string;
   priority?: boolean;
   className?: string;
+  imageClassName?: string;
 }
 
 /**
@@ -22,6 +23,7 @@ export function ProductImage({
   sizes,
   priority,
   className,
+  imageClassName,
 }: ProductImageProps) {
   const [failed, setFailed] = useState(false);
   const showFallback = failed || !product.image_url;
@@ -46,7 +48,7 @@ export function ProductImage({
           fill
           sizes={sizes ?? "100vw"}
           priority={priority}
-          className="object-cover"
+          className={cn("object-cover", imageClassName)}
           onError={() => setFailed(true)}
         />
       )}
