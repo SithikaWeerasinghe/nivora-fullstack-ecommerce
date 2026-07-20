@@ -1,8 +1,7 @@
 /**
- * Service layer entry point — the swap seam between the mock phase and
- * the Laravel REST API. Components import only from "@/services"; when
- * the backend is integrated, these re-exports switch to the real API
- * implementations without any component changes.
+ * Service layer entry point. Components import only from "@/services" —
+ * never from the API implementations directly — so the underlying
+ * transport can change without touching any component.
  */
 
 export {
@@ -10,16 +9,16 @@ export {
   getProductBySlug,
   getFeaturedProducts,
   type ProductQuery,
-} from "./mock/product-service";
+} from "./api/product-service";
 
-export { getCategories } from "./mock/category-service";
+export { getCategories } from "./api/category-service";
 
 export {
   login,
   register,
   getCurrentUser,
   logout,
-} from "./mock/auth-service";
+} from "./api/auth-service";
 
 export {
   getCart,
@@ -27,8 +26,8 @@ export {
   updateCartItem,
   removeCartItem,
   type CartMutationResult,
-} from "./mock/cart-service";
+} from "./api/cart-service";
 
-export { checkout } from "./mock/checkout-service";
+export { checkout } from "./api/checkout-service";
 
-export { getOrderByNumber } from "./mock/order-service";
+export { getOrderByNumber } from "./api/order-service";

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { mockProducts } from "@/data/mock-products";
 import { ProductDetails } from "@/components/products/product-details";
 import { getProductBySlug } from "@/services";
 
@@ -7,8 +6,10 @@ interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
+// No paths are pre-rendered at build time; each product page renders
+// on demand from the live catalogue instead (dynamicParams defaults to true).
 export async function generateStaticParams() {
-  return mockProducts.map((product) => ({ slug: product.slug }));
+  return [];
 }
 
 export async function generateMetadata({

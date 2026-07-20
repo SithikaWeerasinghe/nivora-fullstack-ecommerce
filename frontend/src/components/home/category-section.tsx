@@ -39,14 +39,28 @@ const categoryPresentation: Record<string, CategoryPresentation> = {
   },
 };
 
+/**
+ * Explicit column placement for the "3 first row, 2 centred second row"
+ * layout at the large-tablet tier only. A 6-column track lets two span-2
+ * cards centre themselves (empty track on each side) before the grid
+ * switches to 5 equal columns at desktop.
+ */
+const largeTabletPlacement = [
+  "",
+  "",
+  "",
+  "lg:col-start-2 xl:col-start-auto",
+  "lg:col-start-4 xl:col-start-auto",
+];
+
 export function CategorySection({ categories }: { categories: Category[] }) {
   return (
     <section
       id="categories"
       aria-labelledby="categories-heading"
-      className="mx-auto max-w-7xl scroll-mt-24 px-4 py-14 sm:px-6 sm:py-16"
+      className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20"
     >
-      <div className="max-w-2xl">
+      <div className="mx-auto max-w-2xl text-center">
         <h2
           id="categories-heading"
           className="text-2xl font-bold tracking-tight text-ink sm:text-3xl"
@@ -57,30 +71,35 @@ export function CategorySection({ categories }: { categories: Category[] }) {
           Find practical technology for work, home, mobile life, and travel.
         </p>
       </div>
-      <ul className="mt-8 grid gap-4 md:grid-cols-2">
+      <ul className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-6 xl:grid-cols-5">
         {categories.map((category, index) => {
           const presentation = categoryPresentation[category.slug];
           const IconComponent = presentation?.icon ?? GlobeIcon;
-          const spansFullRow =
-            index === categories.length - 1 && categories.length % 2 === 1;
           return (
-            <li key={category.id} className={cn(spansFullRow && "md:col-span-2")}>
+            <li
+              key={category.id}
+              className={cn(
+                "lg:col-span-2 xl:col-span-1",
+                largeTabletPlacement[index],
+              )}
+            >
               <Link
                 href={`/products?category=${category.slug}`}
-                className="group flex min-h-24 items-center gap-4 rounded-xl border border-line bg-surface p-5 transition-[border-color,box-shadow,translate] duration-500 ease-out hover:-translate-y-1 hover:border-primary/60 hover:shadow-md focus-visible:-translate-y-1 motion-reduce:translate-none sm:gap-5 sm:p-6"
+                className="group flex h-full cursor-pointer flex-col rounded-2xl border border-line bg-surface p-6 text-left shadow-sm transition-[transform,border-color,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:border-primary/60 hover:shadow-lg focus-visible:-translate-y-1 motion-reduce:transition-colors motion-reduce:hover:translate-y-0"
               >
-                <span className="flex h-12 w-12 shrink-0 scale-100 items-center justify-center rounded-xl bg-primary/10 text-primary transition-[background-color,color,scale] duration-500 ease-out group-hover:scale-[1.03] group-hover:bg-primary group-hover:text-white motion-reduce:scale-100">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:group-hover:scale-100">
                   <IconComponent className="h-6 w-6" />
                 </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block font-semibold text-ink transition-colors duration-500 ease-out group-hover:text-primary">
-                    {category.name}
-                  </span>
-                  <span className="mt-1 block text-sm leading-6 text-muted">
-                    {presentation?.description ?? category.description}
-                  </span>
+                <span className="mt-5 block font-semibold text-ink">
+                  {category.name}
                 </span>
-                <ArrowRightIcon className="h-5 w-5 shrink-0 text-muted transition-[color,translate] duration-500 ease-out group-hover:translate-x-1 group-hover:text-primary motion-reduce:translate-none" />
+                <span className="mt-2 block flex-1 text-sm leading-6 text-muted">
+                  {presentation?.description ?? category.description}
+                </span>
+                <span className="mt-5 flex items-center gap-1.5 text-sm font-medium text-primary">
+                  Explore
+                  <ArrowRightIcon className="h-4 w-4 transition-transform duration-500 ease-out group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0" />
+                </span>
               </Link>
             </li>
           );

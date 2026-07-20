@@ -7,11 +7,14 @@ import type { ApiErrorBody, ValidationErrors } from "@/types";
  */
 export class ApiRequestError extends Error implements ApiErrorBody {
   readonly errors?: ValidationErrors;
+  /** HTTP status code, when the error came from a response (vs. a network failure). */
+  readonly status?: number;
 
-  constructor(message: string, errors?: ValidationErrors) {
+  constructor(message: string, errors?: ValidationErrors, status?: number) {
     super(message);
     this.name = "ApiRequestError";
     this.errors = errors;
+    this.status = status;
   }
 }
 

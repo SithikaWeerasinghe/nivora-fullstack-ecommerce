@@ -38,16 +38,16 @@ backed by **PostgreSQL** hosted on **Supabase**.
 
 ## Project status
 
-The complete customer-facing frontend is implemented: home, product listing
-with search/filter/pagination, product details, register/login, cart, protected
-checkout, order confirmation, and a custom 404 page.
+The full stack is implemented and integrated. The Next.js frontend (home,
+product listing with search/filter/pagination, product details, register/login,
+cart, protected checkout, order confirmation, custom 404 page) talks over HTTP
+to the real Laravel 13 REST API, backed by PostgreSQL on Supabase — there is no
+mock data or mock service layer left in the frontend.
 
-During the current phase the frontend runs against a **structured, typed mock
-service layer** (`frontend/src/services/`) whose response shapes match the
-planned Laravel API exactly (snake_case fields, string decimal prices,
-Laravel-style pagination). In the next phase these mock services are replaced
-by real HTTP calls to the Laravel 13 REST API — no component or page changes
-required.
+`frontend/src/services/` is a thin API client (`frontend/src/lib/api-client.ts`)
+that attaches the Sanctum bearer token to protected requests, surfaces 401s
+(clearing the stored token) and 422 validation errors, and normalises the
+stock-limit soft-fail messages the cart endpoints return.
 
 ## Overview
 
@@ -125,15 +125,14 @@ nivora-fullstack-ecommerce/
 
 ## Backend setup (Laravel)
 
-_Detailed steps are finalised as the backend is implemented. Outline:_
-
 ```bash
 cd backend
 composer install
 cp .env.example .env
 php artisan key:generate
-# configure the Supabase PostgreSQL credentials in .env
-php artisan migrate --seed
+# configure the Supabase PostgreSQL credentials in .env (DB_HOST is the
+# bare hostname only — do not paste a full postgresql:// connection string)
+php artisan migrate:fresh --seed
 php artisan serve
 ```
 
@@ -143,7 +142,7 @@ php artisan serve
 cd frontend
 npm install
 cp .env.example .env.local
-# set NEXT_PUBLIC_API_URL to the Laravel API base URL
+# NEXT_PUBLIC_API_URL defaults to http://localhost:8000/api
 npm run dev
 ```
 
@@ -164,18 +163,45 @@ username, password). Connection details are documented in
 
 ## Running the project
 
-_Documented once the full stack is wired together._
+Run both dev servers side by side:
+
+```bash
+# Terminal 1
+cd backend && php artisan serve
+
+# Terminal 2
+cd frontend && npm run dev
+```
+
+Then visit `http://localhost:3000`. The backend must be reachable at
+`NEXT_PUBLIC_API_URL` (default `http://localhost:8000/api`) — public pages
+(home, product listing/detail) fetch categories and products server-side, so
+the API needs to be up before the frontend is loaded.
 
 ## Running the tests
 
-_Backend feature tests and frontend verification commands are documented as they
-are implemented._
+```bash
+# Backend
+cd backend
+php artisan test
+./vendor/bin/pint --test
+
+# Frontend
+cd frontend
+npx tsc --noEmit
+npm run lint
+npm run build
+```
 
 ## Demo credentials
 
-_Assessment-only demo accounts (an admin and a customer) are created by the
-database seeder. Credentials are documented here once the seeder is finalised and
-can be overridden via seeder configuration._
+Assessment-only accounts, created by `UserSeeder` (override via the `ADMIN_*` /
+`DEMO_*` env vars):
+
+| Role | Email | Password |
+| --- | --- | --- |
+| Admin | `admin@nivora.test` | `password` |
+| Customer | `customer@nivora.test` | `password` |
 
 ## API documentation
 
@@ -187,17 +213,43 @@ Import [`postman/Nivora-Ecommerce.postman_collection.json`](postman/Nivora-Ecomm
 
 ## Design and technical decisions
 
-_Documented as the application is built._
+- **Bearer tokens, not cookies.** Sanctum issues a personal access token on
+  register/login; the frontend stores it (via a small guarded localStorage
+  wrapper, never accessed directly by components) and sends
+  `Authorization: Bearer <token>` on protected requests. CORS therefore runs
+  with `supports_credentials: false` and no CSRF/cookie dance is needed.
+- **Server-authoritative cart and checkout.** The cart lives entirely in
+  Postgres, keyed to the authenticated user — there is no guest/local cart.
+  Add/update requests never hard-fail on stock: they return `200` with an
+  `{ ok, message }` envelope so the UI can show a clamped result instead of an
+  error. Checkout re-validates prices and stock under a row lock inside one
+  DB transaction, so the client's cart totals are never trusted.
+- **Single API client seam.** Every request goes through
+  `frontend/src/lib/api-client.ts`, which attaches the token, and turns `401`
+  (clearing the stored token) and `422` (field errors) into a single
+  `ApiRequestError` shape the rest of the frontend already knew how to render.
 
 ## Assumptions
 
-_Documented as the application is built._
+- A logged-out visitor can browse and search the catalogue but must register
+  or log in before adding anything to a cart (the backend has no concept of a
+  guest cart).
+- The demo/admin accounts and their passwords are for local assessment only
+  and are not meant to be reused in a real deployment.
 
 ## Known limitations
 
 - No real payment gateway (out of scope by design); checkout produces a confirmed
   order without payment processing.
+- No guest cart: cart state is per authenticated user only, so switching
+  accounts (or logging out) does not preserve an in-progress cart.
+- Order numbering is a per-day count guard (`NIV-YYYYMMDD-####`), not a DB
+  sequence/advisory lock — fine for assessment-scale traffic, not for real
+  concurrent load.
 
 ## Future improvements
 
-_Documented as the application is built._
+- Persist a guest cart (e.g. by session) and merge it into the user's cart on login.
+- Add a real payment provider integration ahead of the confirmed-order step.
+- Replace the per-day count-based order number with a DB sequence for safe
+  concurrency.
