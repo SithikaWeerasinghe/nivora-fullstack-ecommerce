@@ -6,7 +6,13 @@ import { useDismissableMenu } from "@/lib/use-dismissable-menu";
 import { ChevronDownIcon } from "@/components/ui/icons";
 import type { Category } from "@/types";
 
-export function CategoriesDropdown({ categories }: { categories: Category[] }) {
+export function CategoriesDropdown({
+  categories,
+  tone = "dark",
+}: {
+  categories: Category[];
+  tone?: "light" | "dark";
+}) {
   const { open, close, toggle, containerRef, triggerRef } = useDismissableMenu<
     HTMLDivElement,
     HTMLButtonElement
@@ -21,8 +27,14 @@ export function CategoriesDropdown({ categories }: { categories: Category[] }) {
         aria-expanded={open}
         aria-controls={open ? "categories-menu" : undefined}
         className={cn(
-          "flex h-11 cursor-pointer items-center gap-1.5 rounded-lg px-4 text-sm font-medium transition-colors duration-200",
-          open ? "bg-canvas text-primary" : "text-ink hover:bg-canvas",
+          "flex h-11 cursor-pointer items-center gap-1.5 rounded-lg px-4 text-sm font-semibold transition-colors duration-200",
+          tone === "light"
+            ? open
+              ? "bg-white/15 text-white"
+              : "text-white/85 hover:bg-white/10 hover:text-white"
+            : open
+              ? "bg-primary/10 text-primary"
+              : "text-ink hover:bg-primary/10 hover:text-primary",
         )}
       >
         Categories

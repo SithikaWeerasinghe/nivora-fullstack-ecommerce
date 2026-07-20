@@ -9,7 +9,13 @@ import { ChevronDownIcon, UserIcon } from "@/components/ui/icons";
 const itemClasses =
   "flex h-11 w-full items-center rounded-lg px-3 text-sm font-medium text-ink transition-colors duration-200 hover:bg-canvas hover:text-primary";
 
-export function AccountMenu({ onLogout }: { onLogout: () => void }) {
+export function AccountMenu({
+  onLogout,
+  tone = "dark",
+}: {
+  onLogout: () => void;
+  tone?: "light" | "dark";
+}) {
   const { user, hydrated } = useAuth();
   const { open, close, toggle, containerRef, triggerRef } = useDismissableMenu<
     HTMLDivElement,
@@ -31,7 +37,13 @@ export function AccountMenu({ onLogout }: { onLogout: () => void }) {
         aria-label={user ? `Account: ${user.name}` : "Account"}
         className={cn(
           "flex h-11 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 transition-colors duration-200",
-          open ? "bg-canvas text-primary" : "text-ink hover:bg-canvas",
+          tone === "light"
+            ? open
+              ? "bg-white/15 text-white"
+              : "text-white hover:bg-white/10"
+            : open
+              ? "bg-primary/10 text-primary"
+              : "text-ink hover:bg-primary/10",
         )}
       >
         <UserIcon className="h-6 w-6" />
@@ -42,7 +54,8 @@ export function AccountMenu({ onLogout }: { onLogout: () => void }) {
         ) : null}
         <ChevronDownIcon
           className={cn(
-            "hidden h-4 w-4 text-muted transition-transform duration-200 lg:block",
+            "hidden h-4 w-4 transition-transform duration-200 lg:block",
+            tone === "light" ? "text-white/70" : "text-muted",
             open && "rotate-180",
           )}
         />

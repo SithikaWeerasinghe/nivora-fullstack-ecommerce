@@ -15,6 +15,9 @@ import { NavSearch } from "./nav-search";
 import { Wordmark } from "./wordmark";
 import type { Category } from "@/types";
 
+/** Shared light/dark styling for a navbar element depending on hero state. */
+type NavTone = "light" | "dark";
+
 function subscribeToScroll(onChange: () => void) {
   window.addEventListener("scroll", onChange, { passive: true });
   return () => window.removeEventListener("scroll", onChange);
@@ -33,18 +36,27 @@ function useScrolled(): boolean {
 function NavLink({
   href,
   active,
+  tone,
   children,
 }: {
   href: string;
   active: boolean;
+  tone: NavTone;
   children: React.ReactNode;
 }) {
   return (
     <Link
       href={href}
+      aria-current={active ? "page" : undefined}
       className={cn(
-        "group relative flex h-11 items-center px-1 text-sm font-medium transition-colors duration-300 ease-out",
-        active ? "text-primary" : "text-ink hover:text-primary",
+        "group relative flex h-11 items-center px-1 text-sm font-semibold transition-colors duration-300 ease-out",
+        tone === "light"
+          ? active
+            ? "text-white"
+            : "text-white/85 hover:text-white"
+          : active
+            ? "text-primary"
+            : "text-ink hover:text-primary",
       )}
     >
       {children}
@@ -59,7 +71,17 @@ function NavLink({
   );
 }
 
-function CartLink({ onNavigate }: { onNavigate?: () => void }) {
+/** Shared icon-button styling for cart/hamburger triggers living directly in the header. */
+function iconButtonClasses(tone: NavTone) {
+  return cn(
+    "flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200",
+    tone === "light"
+      ? "text-white hover:bg-white/10"
+      : "text-ink hover:bg-primary/10",
+  );
+}
+
+function CartLink({ tone, onNavigate }: { tone: NavTone; onNavigate?: () => void }) {
   const { totals, hydrated } = useCart();
   const count = totals.itemCount;
   return (
@@ -71,7 +93,7 @@ function CartLink({ onNavigate }: { onNavigate?: () => void }) {
           ? `Cart, ${count} ${count === 1 ? "item" : "items"}`
           : "Cart"
       }
-      className="relative flex h-11 w-11 items-center justify-center rounded-lg text-ink transition-colors hover:bg-canvas"
+      className={cn("relative", iconButtonClasses(tone))}
     >
       <CartIcon className="h-6 w-6" />
       {hydrated && count > 0 ? (
@@ -118,44 +140,45 @@ export function Navbar({ categories }: { categories: Category[] }) {
 
   const homeActive = pathname === "/";
   const shopActive = pathname.startsWith("/products");
-  // Transparent glass only makes sense while the homepage hero is showing
-  // behind it; every other route (and the homepage once scrolled) gets the
-  // solid surface so text always has a guaranteed-light background.
+  // Dark glass only makes sense while the homepage hero is showing behind
+  // it; every other route (and the homepage once scrolled) gets the light
+  // frosted state so text always has a guaranteed-light background.
   const overHero = homeActive && !scrolled;
+  const tone: NavTone = overHero ? "light" : "dark";
 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-40 border-b backdrop-blur-md transition-[background-color,border-color,box-shadow] duration-300",
+        "fixed inset-x-0 top-0 z-40 border-b backdrop-blur-lg transition-[background-color,border-color,box-shadow] duration-[400ms] ease-out",
         overHero
-          ? "border-white/25 bg-white/15 shadow-none"
+          ? "border-white/15 bg-[#0f172a]/70 shadow-[0_2px_20px_rgba(0,0,0,0.25)]"
           : "border-line bg-surface/95 shadow-sm",
       )}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6">
-        <Wordmark />
+        <Wordmark tone={tone} />
 
         <nav
           aria-label="Main navigation"
           className="mx-auto hidden items-center gap-6 md:flex"
         >
-          <NavLink href="/" active={homeActive}>
+          <NavLink href="/" active={homeActive} tone={tone}>
             Home
           </NavLink>
-          <NavLink href="/products" active={shopActive}>
+          <NavLink href="/products" active={shopActive} tone={tone}>
             Shop All
           </NavLink>
-          <CategoriesDropdown categories={categories} />
+          <CategoriesDropdown categories={categories} tone={tone} />
         </nav>
 
         <div className="ml-auto flex items-center gap-0.5 md:ml-0 md:gap-1">
           <div className="hidden md:block">
-            <NavSearch />
+            <NavSearch tone={tone} />
           </div>
           <div className="hidden md:block">
-            <AccountMenu onLogout={handleLogout} />
+            <AccountMenu onLogout={handleLogout} tone={tone} />
           </div>
-          <CartLink onNavigate={closeMenu} />
+          <CartLink tone={tone} onNavigate={closeMenu} />
 
           {/* Mobile menu trigger */}
           <button
@@ -165,7 +188,7 @@ export function Navbar({ categories }: { categories: Category[] }) {
             aria-expanded={menuOpen}
             aria-controls={menuOpen ? "mobile-menu" : undefined}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg text-ink transition-colors hover:bg-canvas md:hidden"
+            className={cn(iconButtonClasses(tone), "md:hidden")}
           >
             {menuOpen ? (
               <CloseIcon className="h-6 w-6" />

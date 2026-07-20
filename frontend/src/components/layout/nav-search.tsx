@@ -2,11 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { cn } from "@/lib/cn";
 import { useDismissableMenu } from "@/lib/use-dismissable-menu";
 import { buttonClasses } from "@/components/ui/button";
 import { SearchIcon } from "@/components/ui/icons";
 
-export function NavSearch() {
+export function NavSearch({ tone = "dark" }: { tone?: "light" | "dark" }) {
   const router = useRouter();
   const { open, close, toggle, containerRef, triggerRef } = useDismissableMenu<
     HTMLDivElement,
@@ -36,7 +37,12 @@ export function NavSearch() {
         aria-expanded={open}
         aria-controls={open ? "nav-search-panel" : undefined}
         aria-label={open ? "Close search" : "Search products"}
-        className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg text-ink transition-colors duration-200 hover:bg-canvas"
+        className={cn(
+          "flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200",
+          tone === "light"
+            ? "text-white hover:bg-white/10"
+            : "text-ink hover:bg-primary/10",
+        )}
       >
         <SearchIcon className="h-6 w-6" />
       </button>
