@@ -11,8 +11,28 @@ backed by **PostgreSQL** hosted on **Supabase**.
 
 ---
 
+## Live demo
+
+| | URL |
+| --- | --- |
+| Frontend | <https://nivora-fullstack-ecommerce.vercel.app> |
+| Backend API | <https://nivora-fullstack-ecommerce-production.up.railway.app/api> |
+| API health check | <https://nivora-fullstack-ecommerce-production.up.railway.app/api/health> |
+
+Demo accounts (see [Demo credentials](#demo-credentials)):
+
+| Role | Email | Password |
+| --- | --- | --- |
+| Admin | `admin@nivora.test` | `password` |
+| Customer | `customer@nivora.test` | `password` |
+
+API reference: [`docs/API.md`](docs/API.md) · Postman collection: [`postman/Nivora-Ecommerce.postman_collection.json`](postman/Nivora-Ecommerce.postman_collection.json)
+
+---
+
 ## Table of contents
 
+- [Live demo](#live-demo)
 - [Overview](#overview)
 - [Main features](#main-features)
 - [Screenshots](#screenshots)
