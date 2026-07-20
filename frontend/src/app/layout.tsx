@@ -4,7 +4,13 @@ import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { Providers } from "@/components/providers/providers";
 import { getCategories } from "@/services";
+import type { Category } from "@/types";
 import "./globals.css";
+
+// The root layout runs for every route (including the build-time /_not-found
+// prerender) and depends on live category data from the API — it can never
+// be safely snapshotted once at build time, so it always renders per-request.
+export const dynamic = "force-dynamic";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,7 +39,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const categories = await getCategories();
+  // A failed/unavailable API must never take down every page on the site —
+  // the nav and footer simply render without categories until it recovers.
+  let categories: Category[] = [];
+  try {
+    categories = await getCategories();
+  } catch {
+    categories = [];
+  }
 
   return (
     <html lang="en" className={`${inter.variable} h-full`}>

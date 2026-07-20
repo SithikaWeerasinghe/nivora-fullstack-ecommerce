@@ -16,7 +16,15 @@ export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = await getProductBySlug(slug);
+  // A failed fetch here must fall back to generic metadata rather than
+  // crashing the request — the page body (ProductDetails) fetches the
+  // same product client-side and already renders its own error state.
+  let product;
+  try {
+    product = await getProductBySlug(slug);
+  } catch {
+    return { title: "Product" };
+  }
   if (!product) {
     return { title: "Product not found" };
   }

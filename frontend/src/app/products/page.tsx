@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { ProductsPageClient } from "@/components/products/products-page-client";
 import { ProductGridSkeleton } from "@/components/products/product-skeleton";
 import { getCategories } from "@/services";
+import type { Category } from "@/types";
 
 export const metadata: Metadata = {
   title: "Products",
@@ -22,7 +23,15 @@ function ProductsFallback() {
 }
 
 export default async function ProductsPage() {
-  const categories = await getCategories();
+  // The category filter chips degrade to "no categories" rather than
+  // taking down the page — the product grid itself is fetched (and its
+  // errors handled) client-side inside ProductsPageClient regardless.
+  let categories: Category[] = [];
+  try {
+    categories = await getCategories();
+  } catch {
+    categories = [];
+  }
 
   return (
     <Suspense fallback={<ProductsFallback />}>
